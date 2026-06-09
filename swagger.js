@@ -6,7 +6,7 @@ const doc = {
     security: [{ bearerAuth: [] }],
     info: {
         title: 'Contractors',
-        description: 'Manage contractors, projects, and specialties'
+        description: 'Manage projects and find contractors to execute them'
     },
     // host: 'localhost:8080',
     // schemes: ["http"]
