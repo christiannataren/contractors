@@ -9,7 +9,7 @@ validateRules.createProject = () => {
         body("title").isString().escape().trim().notEmpty().withMessage(strings.TITLE_REQUIRED),
         body("description").isString().escape().trim().notEmpty().withMessage(strings.DESCRIPTION_REQUIRED),
         body("category").isString().escape().trim().notEmpty().withMessage(strings.CATEGORY_REQUIRED),
-        body("budget").escape().trim().toInt().isInt(),
+        body("budget").escape().trim().toInt().isInt().withMessage(strings.BUDGET_NOT_EMPTY),
         body("deadline").isISO8601().withMessage(strings.INVALID_DATE).escape().toDate(),
         body("location").isString().escape().trim()
     ]
@@ -19,7 +19,7 @@ validateRules.updateProject = () => {
         body("title").isString().escape().trim().notEmpty().withMessage(strings.TITLE_REQUIRED),
         body("description").isString().escape().trim().notEmpty().withMessage(strings.DESCRIPTION_REQUIRED),
         body("category").isString().escape().trim().notEmpty().withMessage(strings.CATEGORY_REQUIRED),
-        body("budget").escape().trim().toInt().isInt(),
+        body("budget").escape().trim().toInt().isInt().withMessage(strings.BUDGET_NOT_EMPTY),
         body("deadline").isISO8601().withMessage(strings.INVALID_DATE).escape().toDate(),
         body("location").isString().escape().trim()
     ]

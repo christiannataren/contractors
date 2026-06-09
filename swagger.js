@@ -8,8 +8,10 @@ const doc = {
         title: 'Contractors',
         description: 'Manage contractors, projects, and specialties'
     },
-    host: 'localhost:8080',
-    schemes: ["http"]
+    // host: 'localhost:8080',
+    // schemes: ["http"]
+    host: 'contractors-wd2g.onrender.com',
+    schemes: ["https"]
 };
 
 const outputFile = './swagger.json';
