@@ -1,0 +1,17 @@
+const { validationResult } = require("express-validator")
+const utils = require("../utils/utils")
+const validator = {}
+
+validator.validateData = async (req, res, next) => {
+    let errors = []
+    errors = validationResult(req)
+
+    if (!errors.isEmpty()) {
+        next(utils.constructError(errors, 422))
+
+    } else {
+        next();
+    }
+}
+
+module.exports = validator
