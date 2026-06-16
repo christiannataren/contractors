@@ -1,10 +1,17 @@
 require('dotenv').config();
 const { env } = require('node:process');
+
 const db = require("./models/db.js")
+const accountModel = require("./models/accountModel.js")
+
 const express = require('express')
 const app = express()
 const estimateRoute = require("./routes/estimateRoute.js")
 const projectsRoute = require("./routes/projectRoute.js")
+const ratesRoute = require("./routes/rateRoute.js")
+const clientsRoute = require("./routes/clientRoute.js")
+const contractorsRoute = require("./routes/contractorRoute.js")
+
 const auth = require("./auth/auth.js")
 const swaggerUi = require('swagger-ui-express');
 const cors = require("cors")
@@ -15,6 +22,8 @@ const session = require("express-session")
 const utils = require('./utils/utils.js');
 const strings = require('./utils/strings.js');
 const { ObjectId } = require('mongodb');
+const jwt = require("jsonwebtoken");
+const { register } = require('node:module');
 
 app.use(express.json())
 
@@ -42,6 +51,10 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 app.use("/projects", projectsRoute)
 app.use("/estimates", estimateRoute)
+app.use("/rates", ratesRoute)
+app.use("/clients", clientsRoute)
+app.use("/contractors", contractorsRoute)
+
 
 
 
@@ -51,9 +64,33 @@ app.get("/", home)
 app.get("/github/callback", passport.authenticate('github', {
     failureRedirect: "/api-docs", session: false
 })
-    , (req, res) => {
-        req.session.user = req.user;
-        res.redirect('/');
+    , async (req, res, next) => {
+        try {
+            req.session.user = req.user;
+            // queso.hola()
+            const isRegister = await utils.isRegister(req.user.id)
+            if (isRegister) {
+                const secret = env.JWTOKEN
+                let data = {
+                    time: Date(),
+                    userId: isRegister._id.toString(),
+                }
+                const token = jwt.sign(data, secret, { expiresIn: '1d' });
+                res.status(200).json({ accessToken: token })
+
+            } else {
+                const pendingAccount = await accountModel.getByGithubId(req.user.id)
+                if (pendingAccount) {
+                    res.status(200).json({ login: true, id_account: pendingAccount._id, status: strings.ACCOUNT_NOT_FOUND, message: strings.CREATE_ACCOUNT_MESSAGE })
+                } else {
+                    return next(utils.constructError(strings.LOGGING_ERROR))
+                }
+
+            }
+        } catch (error) {
+            console.log(error)
+            return next(utils.constructError(strings.LOGGING_ERROR))
+        }
     })
 
 passport.use(new GitHubStrategy({
@@ -62,9 +99,17 @@ passport.use(new GitHubStrategy({
     callbackURL: process.env.CALLBACK_URL
 },
     async function (accessToken, refreshToken, profile, done) {
-        const userGH = await userModel.getGithubUser(profile.id)
-        if (!userGH) {
-            const user = await userModel.insertUser({ name: profile.displayName, username: profile.username, githubId: profile.id })
+        try {
+            const isRegister = await utils.isRegister(profile.id)
+            if (!isRegister) {
+                const pAccount = await accountModel.getByGithubId(profile.id)
+                if (pAccount) {
+                    const del = await accountModel.delete(pAccount._id)
+                }
+                const user = await accountModel.create({ name: profile.displayName, username: profile.username, github_id: profile.id, created_at: new Date() })
+            }
+        } catch (error) {
+            console.error(error)
         }
         return done(null, profile);
     }
@@ -110,3 +155,5 @@ async function home(req, res, next) {
         return next(utils.constructError(strings.UNAUTHORIZED))
     }
 }
+
+

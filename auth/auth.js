@@ -1,12 +1,20 @@
+
+require('dotenv').config()
+const { env } = require('node:process')
 const strings = require("../utils/strings")
 const utils = require("../utils/utils")
 auth = {}
 const ObjectId = require("mongodb")
 const { use } = require("passport")
 
+const jwt = require('jsonwebtoken');
+
+
 let publicPaths = [
-    { path: "/users", method: "POST" },
-    { path: "/users/", method: "POST" },
+    { path: "/clients", method: "POST" },
+    { path: "/clients/", method: "POST" },
+    { path: "/contractors", method: "POST" },
+    { path: "/contractors/", method: "POST" },
     { path: "/api-docs/", method: "POST" },
     { path: "/api-docs/", method: "GET" },
     { path: "/login/", method: "POST" },
@@ -16,13 +24,20 @@ let publicPaths = [
     { path: "/github/callback", method: "GET" }
 ]
 
+
 auth.verifySesion = async function (req, res, next) {
-    const user = req.session.user
-    if (user) {
-        const ghId = await userModel.getGithubUser(user.id)
-        if (ghId) {
-            req._id = ghId._id
+    try {
+        const tk = req.header('Authorization');
+        if (tk) {
+            const token = tk.split(" ")[1]
+            const decoded = jwt.verify(token, env.JWTOKEN);
+            if (decoded) {
+                req._id = decoded.userId
+            }
         }
+    } catch (error) {
+        console.log(error)
+        // return next(utils.constructError(strings.NOT_AUTHENTICATED))
     }
     let publicAccess = publicPaths.some(url =>
         url.path == req.path && url.method == req.method
@@ -38,7 +53,7 @@ auth.verifySesion = async function (req, res, next) {
 
     }
 
-    req._id = "6a26e0650a53e1d3df58454b"
+    // req._id = "6a26e0650a53e1d3df58454b"
     if (req._id || publicAccess) {
         next()
     } else {

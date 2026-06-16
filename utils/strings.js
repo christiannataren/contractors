@@ -44,5 +44,44 @@ strings.NAME_NOT_EMPTY = "Name is required";
 strings.PASSWORD_NOT_EMPTY = "Password is required";
 strings.PASSWORD_SHORT = "Minimum password length is 5";
 strings.PROJECT_NOT_EMPTY = "Add content for your project";
+strings.NUMERIC_VALUE = "This field should be a number";
+strings.NUMERIC_VALUE_RATE = "This field should be a number between 1-5";
+strings.ERROR_ADDING_RATE = "Error adding rate";
+strings.ERROR_GETTING_RATE = "Error getting rate";
+strings.ERROR_UPDATING_RATE = "Error updating rate";
+strings.ERROR_DELETING_RATE = "Error deleting rate";
+strings.RATE_ADDED = "Rate added successfully";
+strings.RATE_UPDATED = "Rate updated successfully";
+strings.RATE_DELETED = "Rate deleted successfully";
+strings.RATE_NOT_FOUND = "Rate not found";
+strings.TOKEN_MALFORMED = "Token Malformed";
+strings.NOT_AUTHENTICATED = "Not authenticated";
+
+// ────────── Logging  ──────────
+strings.ACCOUNT_NOT_FOUND = "Account not found"
+strings.EXISTED_ACCOUNT = "You don't need to register, there is an account with this GitHub Id"
+strings.PENDING_ACCOUNT = "Invalid account_id use /login to get a valid account_id"
+strings.CREATE_ACCOUNT_MESSAGE = "use /contractor or /client to create an account"
+strings.LOGGING_ERROR = "Login error"
+
+
+// ────────── Contractor ──────────
+strings.ERROR_ADDING_CONTRACTOR = "Error creating contractor";
+
+// ────────── CLIENT ──────────
+strings.ERROR_ADDING_CLIENT = "Error adding client";
+strings.ERROR_GETTING_CLIENTS = "Error getting clients";
+strings.ERROR_GETTING_CLIENT = "Error getting client";
+strings.ERROR_UPDATING_CLIENT = "Error updating client";
+strings.ERROR_DELETING_CLIENT = "Error deleting client";
+strings.CLIENT_NOT_FOUND = "Client not found";
+strings.CLIENT_UPDATED = "Client updated successfully";
+strings.CLIENT_DELETED = "Client deleted successfully";
+strings.CLIENT_EMAIL_EXISTS = "An account with this email already exists";
+strings.EMAIL_REQUIRED = "Email is required";
+strings.NAME_REQUIRED = "Name is required";
+strings.PHONE_REQUIRED = "Phone is required";
+strings.COMPANY_REQUIRED = "Company is required";
 
 module.exports = strings;
+
