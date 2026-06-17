@@ -59,9 +59,21 @@ app.use("/contractors", contractorsRoute)
 
 
 
-app.get("/login", passport.authenticate('github'), (req, res) => { })
-app.get("/", home)
-app.get("/github/callback", passport.authenticate('github', {
+app.get("/login", (req, res, next) => {
+    //#swagger.ignore = true
+    next();
+
+}, passport.authenticate('github'), (req, res) => { })
+app.get("/", (req, res, next) => {
+    //#swagger.ignore = true
+    next();
+
+}, home)
+app.get("/github/callback", (req, res, next) => {
+    //#swagger.ignore = true
+    next();
+
+}, passport.authenticate('github', {
     failureRedirect: "/api-docs", session: false
 })
     , async (req, res, next) => {

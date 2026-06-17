@@ -8,6 +8,15 @@ const doc = {
         title: 'Contractors',
         description: 'Manage projects and find contractors to execute them'
     },
+    securityDefinitions: {
+        bearerAuth: {
+            type: "apiKey",
+            in: "header",
+            name: "Authorization",
+            description: "Enter: Bearer <your_token>"
+        }
+    },
+    security: [{ bearerAuth: [] }],
     // host: 'localhost:8080',
     // schemes: ["http"]
     host: 'contractors-wd2g.onrender.com',

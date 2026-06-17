@@ -59,7 +59,7 @@ strings.NOT_AUTHENTICATED = "Not authenticated";
 
 // ────────── Logging  ──────────
 strings.ACCOUNT_NOT_FOUND = "Account not found"
-strings.EXISTED_ACCOUNT = "You don't need to register, there is an account with this GitHub Id"
+strings.EXISTED_ACCOUNT = "You don't need to register, there is an account with this GitHub Id use /login"
 strings.PENDING_ACCOUNT = "Invalid account_id use /login to get a valid account_id"
 strings.CREATE_ACCOUNT_MESSAGE = "use /contractor or /client to create an account"
 strings.LOGGING_ERROR = "Login error"

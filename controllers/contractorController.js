@@ -28,7 +28,6 @@ controller.create = async function (req, res, next) {
         const isRegister = await utils.isRegister(contractor.github_id)
 
         if (isRegister) {
-            console.log(isRegister)
             return next(utils.constructError(strings.EXISTED_ACCOUNT, 409))
         }
         const existing = await model.getContractorByEmail(contractor.email)
